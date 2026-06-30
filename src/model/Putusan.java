@@ -116,6 +116,11 @@ public class Putusan extends DataEntity {
         System.out.println("=".repeat(60));
     }
 
+    /**
+     * Menentukan kategori hukuman berdasarkan lama vonis.
+     *
+     * @return kategori hukuman (Ringan, Sedang, atau Berat)
+     */
     public String getKategoriHukuman() {
         if (vonisHukuman < 24) {
             return "Ringan";
