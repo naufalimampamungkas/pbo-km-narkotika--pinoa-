@@ -78,6 +78,11 @@ public class Putusan extends DataEntity {
         jumlahDibuat++;
     }
 
+    /**
+     * Mengembalikan jumlah objek Putusan yang telah dibuat.
+     *
+     * @return jumlah objek Putusan
+     */
     public static int getJumlahDibuat() {
         return jumlahDibuat;
     }
