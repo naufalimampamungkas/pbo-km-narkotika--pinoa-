@@ -12,7 +12,8 @@ Dibangun dengan menerapkan prinsip-prinsip OOP murni: Encapsulation, Inheritance
 
 Fitur:
 
-| No |        Fitur           |                                      Deskripsi                                            |                                        |----|------------------------|-------------------------------------------------------------------------------------------|
+| No |        Fitur           |                                      Deskripsi                                            |                                           
+|----|------------------------|-------------------------------------------------------------------------------------------|
 | 1  | Tambah Putusan         | Input data putusan baru dengan validasi lengkap, tersimpan ke `ArrayList<Putusan>`        |
 | 2  | Tampilkan Semua        | Menampilkan seluruh data putusan dalam format tabel rapi                                  |  
 | 3  | Cari by Nomor Perkara  | Pencarian exact match berdasarkan nomor perkara                                           |
@@ -132,7 +133,7 @@ feature/controller  → pengembangan layer Controller
 
 Video Demo:
 
-> Link video demo (YouTube): [-]     //ISI INI
+> Link video demo (YouTube): [ISI LINK VIDEO]     //ISI INI
 
 Video mencakup:
 - Penjelasan arsitektur MVC dan pembagian tugas tim
