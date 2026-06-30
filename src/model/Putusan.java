@@ -87,6 +87,9 @@ public class Putusan extends DataEntity {
         return jumlahDibuat;
     }
 
+    /**
+     * Menampilkan ringkasan data putusan dalam format singkat.
+     */
     public void tampilkan() {
         System.out.printf("%-25s | %-25s | %-12s | %d bulan%n",
                 nomorPerkara, namaTerdakwa, jenisNarkotika, vonisHukuman);
