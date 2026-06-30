@@ -17,11 +17,15 @@ public class StatistikPutusan {
 
     private ArrayList<Putusan> daftarPutusan;
 
+    /**
+     * Membuat objek statistik berdasarkan daftar putusan.
+     *
+     * @param daftarPutusan daftar data putusan
+     */
     public StatistikPutusan(ArrayList<Putusan> daftarPutusan) {
         this.daftarPutusan = daftarPutusan;
         hitungSemua();
     }
-
     /**
      * Hitung seluruh statistik.
      */
