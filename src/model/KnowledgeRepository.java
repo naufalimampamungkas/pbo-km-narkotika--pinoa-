@@ -22,10 +22,14 @@ public class KnowledgeRepository implements Searchable {
     /**
      * CREATE
      */
+    /**
+     * Menyimpan data putusan ke dalam repository.
+     *
+     * @param putusan objek putusan yang akan disimpan
+     */
     public void simpan(Putusan putusan) {
         daftarPutusan.add(putusan);
     }
-
     /**
      * READ ALL
      */
