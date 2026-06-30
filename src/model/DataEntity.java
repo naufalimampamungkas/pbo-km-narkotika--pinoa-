@@ -37,7 +37,11 @@ public abstract class DataEntity {
     }
 
     // ======================== Getters & Setters ========================
-
+    /**
+     * Mengembalikan ID entity.
+     *
+     * @return ID entity
+     */
     public String getId() {
         return id;
     }
