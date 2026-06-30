@@ -134,6 +134,9 @@ public class Putusan extends DataEntity {
         }
     }
 
+    /**
+     * Menampilkan informasi utama putusan ke console.
+     */
     @Override
     public void displayInfo() {
         System.out.printf("[Putusan] %s - %s (%s) | Vonis: %d bln | Kategori: %s%n",
