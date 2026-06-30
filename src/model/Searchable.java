@@ -11,6 +11,12 @@ import java.util.ArrayList;
  */
 public interface Searchable {
 
+    /**
+     * Mencari putusan berdasarkan nomor perkara.
+     *
+     * @param nomor nomor perkara
+     * @return data putusan jika ditemukan
+     */
     Putusan cariByNomor(String nomor);
 
     ArrayList<Putusan> cariByNama(String nama);
