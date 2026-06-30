@@ -1,5 +1,13 @@
 package model;
 
+/**
+ * Merepresentasikan data putusan pengadilan tindak pidana narkotika.
+ * Class ini menyimpan seluruh informasi putusan yang digunakan
+ * dalam sistem Knowledge Management.
+ *
+ * @author Knowledge/DB Engineer
+ * @version 1.0
+ */
 public class Putusan extends DataEntity {
 
     private static int jumlahDibuat = 0;
