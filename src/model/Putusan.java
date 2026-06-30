@@ -25,6 +25,22 @@ public class Putusan extends DataEntity {
     private double vonisDenda;
     private String namaHakim;
 
+    /**
+     * Membuat objek Putusan dengan data lengkap.
+     *
+     * @param nomorPerkara nomor perkara
+     * @param pengadilan nama pengadilan
+     * @param tanggalPutusan tanggal putusan
+     * @param namaTerdakwa nama terdakwa
+     * @param umurTerdakwa umur terdakwa
+     * @param jenisNarkotika jenis narkotika
+     * @param beratBarangBukti berat barang bukti
+     * @param pasalDilanggar pasal yang dilanggar
+     * @param peranTerdakwa peran terdakwa
+     * @param vonisHukuman lama vonis
+     * @param vonisDenda besar denda
+     * @param namaHakim nama hakim
+     */
     public Putusan() {
         super("", "");
         this.nomorPerkara   = "";
