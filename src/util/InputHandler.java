@@ -84,7 +84,7 @@ public class InputHandler {
     }
 
     /**
-     * Meminta input bilangan bulat positif (lebih dari 0) dari pengguna.
+     * meminta input bilangan bulat positif (lebih dari 0) dari pengguna.
      *
      * <p>Memanggil {@link #validasiInt(String, Scanner)} terlebih dahulu,
      * kemudian memeriksa apakah nilainya lebih besar dari 0.</p>
