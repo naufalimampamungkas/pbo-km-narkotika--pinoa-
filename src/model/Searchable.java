@@ -62,7 +62,7 @@ public interface Searchable {
      *
      * @param minBulan batas bawah vonis dalam bulan (inklusif)
      * @param maxBulan batas atas vonis dalam bulan (inklusif)
-     * @return {@link ArrayList} berisi putusan dalam rentang vonis tersebut
+     * @return {@Link ArrayList} berisi putusan dalam rentang vonis tersebut
      */
     ArrayList<Putusan> filterByRentangVonis(int minBulan, int maxBulan);
 }
