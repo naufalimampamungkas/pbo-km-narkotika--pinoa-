@@ -180,7 +180,7 @@ public class Putusan extends DataEntity {
      * Mengkategorikan berat ringannya hukuman berdasarkan lama vonis.
      *
      * @return "Ringan" jika vonis kurang dari 24 bulan,
-     *         "Sedang" jika 24-60 bulan,
+     *         "Sedang" jika 24–60 bulan,
      *         "Berat" jika lebih dari 60 bulan
      */
     public String getKategoriHukuman() {
@@ -246,7 +246,7 @@ public class Putusan extends DataEntity {
     /** @return umur terdakwa dalam tahun */
     public int getUmurTerdakwa() { return umurTerdakwa; }
     /**
-     * Mengeset umur terdakwa dengan validasi.
+     * Mengeset umur terdakwa dengan validasi — hanya diset jika lebih dari 0.
      * @param umurTerdakwa umur dalam tahun (harus positif)
      */
     public void setUmurTerdakwa(int umurTerdakwa) {
@@ -261,7 +261,7 @@ public class Putusan extends DataEntity {
     /** @return berat barang bukti dalam gram */
     public double getBeratBarangBukti() { return beratBarangBukti; }
     /**
-     * Mengeset berat barang bukti dengan validasi.
+     * Mengeset berat barang bukti dengan validasi — hanya diset jika lebih dari 0.
      * @param beratBarangBukti berat dalam gram (harus positif)
      */
     public void setBeratBarangBukti(double beratBarangBukti) {
@@ -281,7 +281,7 @@ public class Putusan extends DataEntity {
     /** @return lama vonis hukuman dalam bulan */
     public int getVonisHukuman() { return vonisHukuman; }
     /**
-     * Mengeset vonis hukuman dengan validasi.
+     * Mengeset vonis hukuman dengan validasi — hanya diset jika tidak negatif.
      * @param vonisHukuman lama vonis dalam bulan (harus >= 0)
      */
     public void setVonisHukuman(int vonisHukuman) {
@@ -291,7 +291,7 @@ public class Putusan extends DataEntity {
     /** @return besaran denda dalam Rupiah */
     public double getVonisDenda() { return vonisDenda; }
     /**
-     * Mengeset vonis denda dengan validasi.
+     * Mengeset vonis denda dengan validasi — hanya diset jika tidak negatif.
      * @param vonisDenda besaran denda dalam Rupiah (harus >= 0)
      */
     public void setVonisDenda(double vonisDenda) {
