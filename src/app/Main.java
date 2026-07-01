@@ -9,22 +9,59 @@ import util.InputHandler;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Entry point aplikasi Knowledge Management System (KMS) Putusan
+ * Pengadilan Narkotika.
+ *
+ * <p>Class ini bertugas sebagai titik masuk (App layer) pada arsitektur
+ * MVC. Tanggung jawabnya seminimal mungkin: menginisialisasi komponen
+ * {@link KnowledgeController} (Controller) dan {@link ConsoleView} (View),
+ * lalu menjalankan loop menu utama yang menerjemahkan pilihan pengguna
+ * menjadi pemanggilan method pada Controller.</p>
+ *
+ * <p><b>Catatan arsitektur:</b> Main TIDAK boleh berisi logika bisnis
+ * (validasi data, perhitungan statistik, query data, dll). Seluruh
+ * logika tersebut didelegasikan ke {@link KnowledgeController} dan
+ * layer Model di baliknya, sesuai aturan pemisahan tanggung jawab MVC.</p>
+ *
+ * @author Backend Developer / Controller Engineer
+ * @version 1.0
+ */
 public class Main {
 
+    /**
+     * Method utama yang dijalankan saat aplikasi dimulai.
+     *
+     * <p>Alur kerja:</p>
+     * <ol>
+     *   <li>Inisialisasi {@link Scanner} untuk membaca input pengguna.</li>
+     *   <li>Inisialisasi {@link KnowledgeController} dan {@link ConsoleView}.</li>
+     *   <li>Menjalankan loop menu hingga pengguna memilih keluar (menu 10).</li>
+     *   <li>Setiap pilihan menu diteruskan ke method Controller yang sesuai,
+     *       lalu hasilnya ditampilkan melalui View.</li>
+     * </ol>
+     *
+     * @param args argumen command-line (tidak digunakan pada aplikasi ini)
+     */
     public static void main(String[] args) {
 
+        // Scanner tunggal yang dipakai bersama untuk seluruh input pengguna
         Scanner scanner = new Scanner(System.in);
 
+        // Inisialisasi Controller: jembatan antara Model dan View
         KnowledgeController controller =
                 new KnowledgeController();
 
+        // Inisialisasi View: menampilkan menu dan menerima input mentah
         ConsoleView view =
                 new ConsoleView();
 
         boolean running = true;
 
+        // ====== Loop menu utama aplikasi ======
         while (running) {
 
+            // Tampilkan ringkasan jumlah data setiap kali kembali ke menu
             view.tampilkanDashboard(
                     controller.getTotalData(),
                     controller.getTotalObjekDibuat()
@@ -35,6 +72,7 @@ public class Main {
 
             switch (pilihan) {
 
+                // --- Menu 1: Tambah data putusan baru ---
                 case 1:
 
                     String[] data =
@@ -55,6 +93,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 2: Tampilkan seluruh data putusan ---
                 case 2:
 
                     view.tampilkanDaftarPutusan(
@@ -63,6 +102,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 3: Cari putusan berdasarkan nomor perkara ---
                 case 3:
 
                     System.out.print(
@@ -78,6 +118,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 4: Cari putusan berdasarkan nama terdakwa ---
                 case 4:
 
                     System.out.print(
@@ -93,6 +134,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 5: Filter berdasarkan jenis narkotika ---
                 case 5:
 
                     System.out.print(
@@ -108,6 +150,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 6: Filter berdasarkan nama pengadilan ---
                 case 6:
 
                     System.out.print(
@@ -125,6 +168,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 7: Filter berdasarkan rentang vonis ---
                 case 7:
 
                     int min =
@@ -157,6 +201,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 8: Tampilkan statistik ringkasan ---
                 case 8:
 
                     StatistikPutusan statistik =
@@ -169,6 +214,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 9: Hapus data putusan berdasarkan nomor perkara ---
                 case 9:
 
                     System.out.print(
@@ -194,6 +240,7 @@ public class Main {
 
                     break;
 
+                // --- Menu 10: Keluar dari aplikasi ---
                 case 10:
 
                     running = false;
@@ -206,6 +253,8 @@ public class Main {
             }
         }
 
+        // Tutup Scanner agar resource input tidak bocor (best practice Java)
+        // Mencegah memory leak saat aplikasi selesai dijalankan
         scanner.close();
     }
 }

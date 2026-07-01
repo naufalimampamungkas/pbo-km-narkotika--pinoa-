@@ -3,14 +3,30 @@ package util;
 import java.util.Scanner;
 
 /**
- * Utility class untuk menangani input dan validasi.
- * Semua input angka menggunakan try-catch agar
- * program tidak crash ketika user salah memasukkan data.
+ * Utility class untuk menangani input dan validasi data dari pengguna.
+ *
+ * <p>Semua method bersifat {@code static} sehingga dapat dipanggil
+ * tanpa membuat objek {@code InputHandler} terlebih dahulu.</p>
+ *
+ * <p>Setiap method menggunakan loop {@code while(true)} dengan
+ * {@code try-catch} agar program tidak crash ketika pengguna
+ * memasukkan data yang tidak valid — program akan terus meminta
+ * input ulang sampai data yang benar dimasukkan.</p>
+ *
+ * @author Backend Developer / Controller Engineer
+ * @version 2.0
  */
 public class InputHandler {
 
     /**
-     * Validasi String tidak boleh kosong.
+     * Meminta input String dari pengguna dan memastikan tidak kosong.
+     *
+     * <p>Jika pengguna menekan Enter tanpa mengetik apapun,
+     * program akan menampilkan pesan error dan meminta input ulang.</p>
+     *
+     * @param prompt  teks yang ditampilkan sebagai petunjuk input
+     * @param scanner objek {@link Scanner} yang digunakan untuk membaca input
+     * @return String yang tidak kosong hasil input pengguna
      */
     public static String validasiString(
             String prompt,
@@ -32,7 +48,14 @@ public class InputHandler {
     }
 
     /**
-     * Validasi Integer.
+     * Meminta input bilangan bulat ({@code int}) dari pengguna.
+     *
+     * <p>Menggunakan {@code try-catch NumberFormatException} untuk
+     * menangani input yang bukan angka bulat.</p>
+     *
+     * @param prompt  teks yang ditampilkan sebagai petunjuk input
+     * @param scanner objek {@link Scanner} yang digunakan untuk membaca input
+     * @return nilai {@code int} hasil input pengguna
      */
     public static int validasiInt(
             String prompt,
@@ -61,7 +84,14 @@ public class InputHandler {
     }
 
     /**
-     * Validasi Integer positif.
+     * Meminta input bilangan bulat positif (lebih dari 0) dari pengguna.
+     *
+     * <p>Memanggil {@link #validasiInt(String, Scanner)} terlebih dahulu,
+     * kemudian memeriksa apakah nilainya lebih besar dari 0.</p>
+     *
+     * @param prompt  teks yang ditampilkan sebagai petunjuk input
+     * @param scanner objek {@link Scanner} yang digunakan untuk membaca input
+     * @return nilai {@code int} positif (lebih dari 0) hasil input pengguna
      */
     public static int validasiIntPositif(
             String prompt,
@@ -86,7 +116,14 @@ public class InputHandler {
     }
 
     /**
-     * Validasi Double.
+     * Meminta input bilangan desimal ({@code double}) dari pengguna.
+     *
+     * <p>Menggunakan {@code try-catch NumberFormatException} untuk
+     * menangani input yang bukan angka desimal.</p>
+     *
+     * @param prompt  teks yang ditampilkan sebagai petunjuk input
+     * @param scanner objek {@link Scanner} yang digunakan untuk membaca input
+     * @return nilai {@code double} hasil input pengguna
      */
     public static double validasiDouble(
             String prompt,
@@ -115,7 +152,15 @@ public class InputHandler {
     }
 
     /**
-     * Validasi Double Positif.
+     * Meminta input bilangan desimal positif (lebih dari 0) dari pengguna.
+     *
+     * <p>Memanggil {@link #validasiDouble(String, Scanner)} terlebih dahulu,
+     * kemudian memeriksa apakah nilainya lebih besar dari 0.
+     * Digunakan untuk input seperti berat barang bukti.</p>
+     *
+     * @param prompt  teks yang ditampilkan sebagai petunjuk input
+     * @param scanner objek {@link Scanner} yang digunakan untuk membaca input
+     * @return nilai {@code double} positif (lebih dari 0) hasil input pengguna
      */
     public static double validasiDoublePositif(
             String prompt,
@@ -140,7 +185,17 @@ public class InputHandler {
     }
 
     /**
-     * Validasi pilihan menu.
+     * Meminta input pilihan menu dari pengguna dalam rentang tertentu.
+     *
+     * <p>Memanggil {@link #validasiInt(String, Scanner)} terlebih dahulu,
+     * kemudian memastikan nilainya berada di antara {@code min} dan {@code max}
+     * (inklusif). Digunakan untuk validasi pilihan menu utama.</p>
+     *
+     * @param prompt  teks yang ditampilkan sebagai petunjuk input
+     * @param min     batas bawah pilihan yang valid (inklusif)
+     * @param max     batas atas pilihan yang valid (inklusif)
+     * @param scanner objek {@link Scanner} yang digunakan untuk membaca input
+     * @return nilai {@code int} dalam rentang [{@code min}, {@code max}]
      */
     public static int validasiPilihan(
             String prompt,
@@ -172,7 +227,15 @@ public class InputHandler {
     }
 
     /**
-     * Validasi Integer tidak boleh negatif.
+     * Meminta input bilangan bulat non-negatif (lebih dari atau sama dengan 0).
+     *
+     * <p>Berbeda dengan {@link #validasiIntPositif(String, Scanner)},
+     * method ini mengizinkan nilai 0. Digunakan untuk input seperti
+     * vonis hukuman yang bisa bernilai 0.</p>
+     *
+     * @param prompt  teks yang ditampilkan sebagai petunjuk input
+     * @param scanner objek {@link Scanner} yang digunakan untuk membaca input
+     * @return nilai {@code int} non-negatif (lebih dari atau sama dengan 0)
      */
     public static int validasiIntNonNegatif(
             String prompt,
