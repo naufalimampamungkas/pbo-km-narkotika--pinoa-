@@ -250,7 +250,7 @@ public class ConsoleView {
      * Menampilkan pesan singkat kepada pengguna, diawali baris kosong
      * agar tampilan lebih rapi dan mudah dibaca.
      *
-     * @param pesan teks pesan yang akan ditampilkan
+     * @param pesan Teks pesan yang akan ditampilkan
      */
     public void tampilkanPesan(String pesan) {
         System.out.println();
