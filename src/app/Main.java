@@ -253,8 +253,7 @@ public class Main {
             }
         }
 
-        // Tutup Scanner agar resource input tidak bocor (best practice Java)
-        // Mencegah memory leak saat aplikasi selesai dijalankan
+        // Tutup Scanner agar resource input tidak bocor
         scanner.close();
     }
 }
