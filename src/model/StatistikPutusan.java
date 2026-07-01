@@ -191,7 +191,7 @@ public class StatistikPutusan {
     /**
      * Mengembalikan array distribusi peran terdakwa.
      * Setiap elemen berformat "NamaPeran : N orang".
-     * @return {@code String[]} distribusi peran terdakwa
+     * @retuRn {@code String[]} distribusi peran terdakwa
      */
     public String[] getDistribusiPeran() { return distribusiPeran; }
 }
