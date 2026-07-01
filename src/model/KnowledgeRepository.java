@@ -25,8 +25,11 @@ public class KnowledgeRepository implements Searchable {
 
     /**
      * Struktur data utama penyimpanan seluruh objek {@link Putusan}.
-     * Dipilih ArrayList karena ukurannya dinamis dan mendukung
-     * operasi iterasi, tambah, dan hapus dengan mudah.
+     *
+     * <p>ArrayList dipilih karena memiliki ukuran dinamis sehingga
+     * mampu menampung data putusan tanpa perlu menentukan kapasitas
+     * awal secara manual. Struktur ini juga mempermudah proses
+     * penambahan, pencarian, iterasi, dan penghapusan data.</p>
      */
     private ArrayList<Putusan> daftarPutusan;
 
