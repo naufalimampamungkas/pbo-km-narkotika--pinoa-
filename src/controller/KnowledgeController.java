@@ -1,253 +1,221 @@
-package controller;
-
-import model.*;
+package model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
- * Controller utama yang mengorkestrasi interaksi antara View dan Model
- * dalam arsitektur MVC (Model-View-Controller).
+ * Repository utama yang mengelola koleksi data {@link Putusan}
+ * menggunakan {@code ArrayList} sebagai struktur data utama.
  *
- * <p>Menerima input dari View, memvalidasi data,
- * lalu mendelegasikan operasi ke {@link KnowledgeRepository} (Model).</p>
+ * <p>Mengimplementasikan interface {@link Searchable} untuk memenuhi
+ * kontrak pencarian dan filter data putusan.</p>
  *
- * <p>Tidak ada logika bisnis di View — semua diproses di sini.</p>
+ * <p>Menangani operasi:</p>
+ * <ul>
+ *   <li><b>Create</b> — menyimpan putusan baru via {@link #simpan(Putusan)}</li>
+ *   <li><b>Read</b>   — mengambil semua data via {@link #getDaftarSemua()}</li>
+ *   <li><b>Delete</b> — menghapus data via {@link #hapus(String)}</li>
+ *   <li><b>Search</b> — mencari by nomor/nama via metode Searchable</li>
+ *   <li><b>Filter</b> — filter by jenis/pengadilan/rentang vonis</li>
+ * </ul>
  *
- * @author Backend Developer / Controller Engineer
- * @version 2.0
+ * @author Knowledge/DB Engineer
+ * @version 1.0
  */
-public class KnowledgeController {
-
-    /** Repository sebagai sumber data utama (Model layer) */
-    private KnowledgeRepository repository;
+public class KnowledgeRepository implements Searchable {
 
     /**
-     * Konstruktor default yang menginisialisasi repository
-     * dan mengisi data dummy secara otomatis.
+     * Struktur data utama penyimpanan seluruh objek {@link Putusan}.
+     * Dipilih ArrayList karena ukurannya dinamis dan mendukung
+     * operasi iterasi, tambah, dan hapus dengan mudah.
      */
-    public KnowledgeController() {
-        repository = new KnowledgeRepository();
-        generateDummyData();
+    private ArrayList<Putusan> daftarPutusan;
+
+    /**
+     * Konstruktor default yang menginisialisasi ArrayList kosong
+     * sebagai wadah penyimpanan data putusan.
+     */
+    public KnowledgeRepository() {
+        daftarPutusan = new ArrayList<>();
     }
 
     /**
-     * Menambahkan putusan baru ke dalam repository.
+     * Menyimpan (CREATE) satu objek {@link Putusan} ke dalam ArrayList.
      *
-     * <p>Melakukan validasi duplikasi nomor perkara sebelum menyimpan.
-     * Jika nomor perkara sudah ada, data tidak akan disimpan.</p>
-     *
-     * @param data array String berisi data putusan dengan urutan:
-     *             [0] nomorPerkara, [1] pengadilan, [2] tanggal,
-     *             [3] nama, [4] umur, [5] jenis, [6] berat,
-     *             [7] pasal, [8] peran, [9] vonis, [10] denda, [11] hakim
-     * @return {@code true} jika berhasil disimpan, {@code false} jika duplikat atau error
+     * @param putusan objek Putusan yang akan disimpan, tidak boleh {@code null}
      */
-    public boolean tambahPutusan(String[] data) {
-        try {
-            // Validasi nomor perkara tidak boleh duplikat
-            if (repository.cariByNomor(data[0]) != null) {
-                return false;
-            }
-
-            Putusan putusan = new Putusan(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3],
-                    Integer.parseInt(data[4]),
-                    data[5],
-                    Double.parseDouble(data[6]),
-                    data[7],
-                    data[8],
-                    Integer.parseInt(data[9]),
-                    Double.parseDouble(data[10]),
-                    data[11]
-            );
-
-            repository.simpan(putusan);
-            return true;
-
-        } catch (Exception e) {
-            return false;
-        }
+    public void simpan(Putusan putusan) {
+        daftarPutusan.add(putusan);
     }
 
     /**
-     * Mencari satu putusan berdasarkan nomor perkara (exact match).
+     * Mengambil (READ ALL) seluruh data putusan yang tersimpan.
      *
-     * @param nomor nomor perkara yang dicari
-     * @return objek {@link Putusan} jika ditemukan, atau {@code null} jika tidak ada
+     * @return {@link ArrayList} berisi semua objek {@link Putusan},
+     *         atau ArrayList kosong jika belum ada data
      */
-    public Putusan cariByNomor(String nomor) {
-        return repository.cariByNomor(nomor);
+    public ArrayList<Putusan> getDaftarSemua() {
+        return daftarPutusan;
     }
 
     /**
-     * Mencari daftar putusan berdasarkan nama terdakwa (partial match).
+     * Menghitung total jumlah data putusan yang tersimpan di repository.
      *
-     * @param nama keyword nama terdakwa yang dicari
-     * @return {@link ArrayList} berisi putusan yang cocok
-     */
-    public ArrayList<Putusan> cariByNama(String nama) {
-        return repository.cariByNama(nama);
-    }
-
-    /**
-     * Memfilter putusan berdasarkan jenis narkotika.
-     *
-     * @param jenis jenis narkotika yang difilter (contoh: "Sabu", "Ganja")
-     * @return {@link ArrayList} berisi putusan yang sesuai jenis narkotika
-     */
-    public ArrayList<Putusan> filterByJenis(String jenis) {
-        return repository.filterByJenis(jenis);
-    }
-
-    /**
-     * Memfilter putusan berdasarkan nama pengadilan.
-     *
-     * @param pengadilan nama pengadilan yang difilter
-     * @return {@link ArrayList} berisi putusan dari pengadilan tersebut
-     */
-    public ArrayList<Putusan> filterByPengadilan(String pengadilan) {
-        return repository.filterByPengadilan(pengadilan);
-    }
-
-    /**
-     * Memfilter putusan berdasarkan rentang lama vonis hukuman.
-     *
-     * @param min batas bawah vonis dalam bulan (inklusif)
-     * @param max batas atas vonis dalam bulan (inklusif)
-     * @return {@link ArrayList} berisi putusan dalam rentang vonis tersebut
-     */
-    public ArrayList<Putusan> filterByRentangVonis(int min, int max) {
-        return repository.filterByRentangVonis(min, max);
-    }
-
-    /**
-     * Menghapus putusan dari repository berdasarkan nomor perkara.
-     *
-     * @param nomor nomor perkara yang akan dihapus
-     * @return {@code true} jika berhasil dihapus, {@code false} jika tidak ditemukan
-     */
-    public boolean hapusPutusan(String nomor) {
-        return repository.hapus(nomor);
-    }
-
-    /**
-     * Mengambil seluruh data putusan yang tersimpan di repository.
-     *
-     * @return {@link ArrayList} berisi semua objek {@link Putusan}
-     */
-    public ArrayList<Putusan> getSemuaPutusan() {
-        return repository.getDaftarSemua();
-    }
-
-    /**
-     * Membuat dan mengembalikan objek statistik dari seluruh data putusan.
-     *
-     * @return objek {@link StatistikPutusan} hasil kalkulasi data terkini
-     */
-    public StatistikPutusan getStatistik() {
-        return new StatistikPutusan(repository.getDaftarSemua());
-    }
-
-    /**
-     * Mengembalikan jumlah total data putusan yang tersimpan.
-     *
-     * @return jumlah total data di repository
+     * @return jumlah elemen dalam {@code daftarPutusan}
      */
     public int getTotalData() {
-        return repository.getTotalData();
+        return daftarPutusan.size();
     }
 
     /**
-     * Mengembalikan total objek Putusan yang pernah diinstansiasi
-     * selama program berjalan (menggunakan static field {@code jumlahDibuat}).
+     * Mencari satu putusan berdasarkan nomor perkara (exact match,
+     * case-insensitive).
      *
-     * @return total objek Putusan yang pernah dibuat
-     */
-    public int getTotalObjekDibuat() {
-        return Putusan.getJumlahDibuat();
-    }
-
-    /**
-     * Mengisi repository dengan 50 data dummy secara otomatis saat program pertama kali dijalankan.
+     * <p>Mengiterasi seluruh ArrayList dan membandingkan
+     * {@code nomorPerkara} menggunakan {@code equalsIgnoreCase}.</p>
      *
-     * <p>Data di-generate secara acak menggunakan {@link Random} dengan kombinasi
-     * nama terdakwa, jenis narkotika, pengadilan, dan peran yang sudah ditentukan.</p>
+     * @param nomor nomor perkara yang dicari (contoh: "1001/Pid.Sus/2024")
+     * @return objek {@link Putusan} jika ditemukan, atau {@code null} jika tidak ada
      */
-    private void generateDummyData() {
+    @Override
+    public Putusan cariByNomor(String nomor) {
 
-        String[] pengadilan = {
-                "PN Surabaya",
-                "PN Jakarta Selatan",
-                "PN Bandung",
-                "PN Malang",
-                "PN Semarang"
-        };
+        for (Putusan p : daftarPutusan) {
 
-        String[] narkotika = {
-                "Sabu",
-                "Ganja",
-                "Ekstasi",
-                "Heroin"
-        };
+            if (p.getNomorPerkara()
+                    .equalsIgnoreCase(nomor)) {
 
-        String[] peran = {
-                "Bandar",
-                "Kurir",
-                "Pengguna",
-                "Penyimpan"
-        };
-
-        String[] hakim = {
-                "Hakim A",
-                "Hakim B",
-                "Hakim C",
-                "Hakim D"
-        };
-
-        String[] namaTerdakwa = {
-                "Budi Santoso",
-                "Andi Saputra",
-                "Rizki Ramadhan",
-                "Dimas Pratama",
-                "Ahmad Fauzi",
-                "Agus Setiawan",
-                "Rahmat Hidayat",
-                "Fajar Nugroho",
-                "Rian Kurniawan",
-                "Yusuf Maulana"
-        };
-
-        String[] pasal = {
-                "Pasal 111",
-                "Pasal 112",
-                "Pasal 114",
-                "Pasal 127"
-        };
-
-        Random random = new Random();
-
-        for (int i = 1; i <= 50; i++) {
-
-            Putusan putusan = new Putusan(
-                    "100" + i + "/Pid.Sus/2025",
-                    pengadilan[random.nextInt(pengadilan.length)],
-                    "2025-06-" + ((i % 28) + 1),
-                    namaTerdakwa[random.nextInt(namaTerdakwa.length)],
-                    18 + random.nextInt(40),
-                    narkotika[random.nextInt(narkotika.length)],
-                    0.5 + random.nextDouble() * 100,
-                    pasal[random.nextInt(pasal.length)],
-                    peran[random.nextInt(peran.length)],
-                    6 + random.nextInt(120),
-                    1000000 + random.nextInt(50000000),
-                    hakim[random.nextInt(hakim.length)]
-            );
-
-            repository.simpan(putusan);
+                return p;
+            }
         }
+
+        return null;
+    }
+
+    /**
+     * Mencari semua putusan yang nama terdakwanya mengandung
+     * keyword tertentu (partial match, case-insensitive).
+     *
+     * <p>Menggunakan {@code contains} + {@code toLowerCase} agar
+     * pencarian tidak sensitif terhadap huruf besar/kecil.</p>
+     *
+     * @param nama keyword nama terdakwa yang dicari
+     * @return {@link ArrayList} berisi semua putusan yang cocok,
+     *         atau ArrayList kosong jika tidak ada yang cocok
+     */
+    @Override
+    public ArrayList<Putusan> cariByNama(String nama) {
+
+        ArrayList<Putusan> hasil = new ArrayList<>();
+
+        for (Putusan p : daftarPutusan) {
+
+            if (p.getNamaTerdakwa()
+                    .toLowerCase()
+                    .contains(nama.toLowerCase())) {
+
+                hasil.add(p);
+            }
+        }
+
+        return hasil;
+    }
+
+    /**
+     * Memfilter putusan berdasarkan jenis narkotika (exact match,
+     * case-insensitive).
+     *
+     * @param jenis jenis narkotika yang difilter (contoh: "Sabu", "Ganja")
+     * @return {@link ArrayList} berisi putusan dengan jenis narkotika yang sesuai
+     */
+    @Override
+    public ArrayList<Putusan> filterByJenis(String jenis) {
+
+        ArrayList<Putusan> hasil = new ArrayList<>();
+
+        for (Putusan p : daftarPutusan) {
+
+            if (p.getJenisNarkotika()
+                    .equalsIgnoreCase(jenis)) {
+
+                hasil.add(p);
+            }
+        }
+
+        return hasil;
+    }
+
+    /**
+     * Memfilter putusan berdasarkan nama pengadilan (exact match,
+     * case-insensitive).
+     *
+     * @param pengadilan nama pengadilan yang difilter (contoh: "PN Surabaya")
+     * @return {@link ArrayList} berisi putusan dari pengadilan yang sesuai
+     */
+    @Override
+    public ArrayList<Putusan> filterByPengadilan(String pengadilan) {
+
+        ArrayList<Putusan> hasil = new ArrayList<>();
+
+        for (Putusan p : daftarPutusan) {
+
+            if (p.getPengadilan()
+                    .equalsIgnoreCase(pengadilan)) {
+
+                hasil.add(p);
+            }
+        }
+
+        return hasil;
+    }
+
+    /**
+     * Memfilter putusan berdasarkan rentang lama vonis hukuman (inklusif).
+     *
+     * <p>Menggunakan operator {@code >=} dan {@code <=} sehingga
+     * batas bawah dan batas atas termasuk dalam hasil filter.</p>
+     *
+     * @param minBulan batas bawah vonis dalam bulan (inklusif)
+     * @param maxBulan batas atas vonis dalam bulan (inklusif)
+     * @return {@link ArrayList} berisi putusan dalam rentang vonis tersebut
+     */
+    @Override
+    public ArrayList<Putusan> filterByRentangVonis(
+            int minBulan,
+            int maxBulan) {
+
+        ArrayList<Putusan> hasil = new ArrayList<>();
+
+        for (Putusan p : daftarPutusan) {
+
+            if (p.getVonisHukuman() >= minBulan &&
+                    p.getVonisHukuman() <= maxBulan) {
+
+                hasil.add(p);
+            }
+        }
+
+        return hasil;
+    }
+
+    /**
+     * Menghapus (DELETE) satu putusan berdasarkan nomor perkara.
+     *
+     * <p>Mencari terlebih dahulu menggunakan {@link #cariByNomor(String)},
+     * kemudian menghapus dari ArrayList jika ditemukan.</p>
+     *
+     * @param nomorPerkara nomor perkara yang akan dihapus
+     * @return {@code true} jika berhasil dihapus,
+     *         {@code false} jika nomor perkara tidak ditemukan
+     */
+    public boolean hapus(String nomorPerkara) {
+
+        Putusan putusan = cariByNomor(nomorPerkara);
+
+        if (putusan != null) {
+            daftarPutusan.remove(putusan);
+            return true;
+        }
+
+        return false;
     }
 }
