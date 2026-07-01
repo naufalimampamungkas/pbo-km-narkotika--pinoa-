@@ -100,7 +100,7 @@ public abstract class DataEntity {
      * <p>Wajib di-override oleh semua subclass untuk menghasilkan
      * format String yang sesuai dengan domain masing-masing.</p>
      *
-     * @return String representasi objek ini
+     * @return String Representsi objek ini
      */
     @Override
     public abstract String toString();
